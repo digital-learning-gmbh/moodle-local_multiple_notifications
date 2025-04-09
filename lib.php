@@ -45,7 +45,7 @@ function send_multiple_expiry_notifications ($trace) {
     core_php_time_limit::raise();
     raise_memory_limit(MEMORY_HUGE);
 
-    if ($notifications = $DB->get_records('local_multiple_notifications_email')) {
+    if ($notifications = $DB->get_records('local_multinotif_email')) {
         foreach ($notifications as $notification) {
             $expirythreshold = $notification->expirythreshold;
 
@@ -54,7 +54,7 @@ function send_multiple_expiry_notifications ($trace) {
                   JOIN {enrol} e ON (e.id = ue.enrolid AND e.status = :enabled)
                   JOIN {course} c ON (c.id = e.courseid)
                   JOIN {user} u ON (u.id = ue.userid AND u.deleted = 0 AND u.suspended = 0)
-                  LEFT JOIN {local_multiple_notifications_logs} mnl ON mnl.enrolment_id = ue.id
+                  LEFT JOIN {local_multinotif_logs} mnl ON mnl.enrolment_id = ue.id
                       AND multiple_notifications_email_id = :notification_id
                  WHERE  mnl.id is null
                     AND ue.status = :active
@@ -141,7 +141,7 @@ function notify_expiry_enrolled ($user, $ue, progress_trace $trace, $notificatio
             'enrolment_id' => $ue->id,
             'time_send' => time()
         );
-        $DB->insert_record('local_multiple_notifications_logs', $dataobject);
+        $DB->insert_record('local_multinotif_logs', $dataobject);
 
     } else {
         $trace->output("error notifying user $ue->userid that enrolment in course $ue->courseid expires on "

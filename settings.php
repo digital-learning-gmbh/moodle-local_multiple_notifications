@@ -50,7 +50,7 @@ if (has_capability('local/multiple_notifications:configmagement', context_system
 
     $table->data = array();
 
-    $records = $DB->get_records('local_multiple_notifications_email');
+    $records = $DB->get_records('local_multinotif_email');
     foreach ($records as $record) {
         $url = new moodle_url('/local/multiple_notifications/manage_email.php', array('id' => $record->id));
         $editlink = $OUTPUT->action_icon($url,

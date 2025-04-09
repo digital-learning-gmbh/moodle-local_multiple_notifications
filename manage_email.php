@@ -35,7 +35,7 @@ $id = optional_param('id', 0, PARAM_INT);
 $action = optional_param('action', null, PARAM_RAW);
 
 if ($action == 'delete' && $id) {
-    $DB->delete_records('local_multiple_notifications_email', array('id' => $id));
+    $DB->delete_records('local_multinotif_email', array('id' => $id));
     redirect(new moodle_url('/admin/settings.php', array('section' => 'local_multiple_notifications')));
 }
 
@@ -47,13 +47,13 @@ if ($mform->is_cancelled()) {
 } else if ($data = $mform->get_data()) {
     $data->message = $data->message['text'];
     if (!$id) {
-        $DB->insert_record('local_multiple_notifications_email', $data);
+        $DB->insert_record('local_multinotif_email', $data);
     } else {
-        $DB->update_record('local_multiple_notifications_email', $data);
+        $DB->update_record('local_multinotif_email', $data);
     }
     redirect(new moodle_url('/admin/settings.php', array('section' => 'local_multiple_notifications')));
 } else if ($id) {
-    $data = $DB->get_record('local_multiple_notifications_email', array('id' => $id));
+    $data = $DB->get_record('local_multinotif_email', array('id' => $id));
     $data->message = array('text' => $data->message, 'format' => FORMAT_HTML, 'itemid' => $draftideditor);
     $mform->set_data($data);
 }
